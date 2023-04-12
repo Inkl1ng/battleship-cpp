@@ -1,18 +1,47 @@
-#include "render.h"
-#include "player.h"
+#include "render.hpp"
+#include "player.hpp"
 #include <iostream>
 #include <string>
 
-// prints out [amount] number of whitespaces
-void Render::whitespace(int amount)
+void Render::renderWhitespace(int amount)
 {
-    std::cout << ' ';
+    for (int x { 0 }; x < amount; ++x)
+    {
+        std::cout << ' ';
+    }
 }
 
-// prints out player 1 and 2's ocean and target boards
+void Render::renderNumberRow()
+{
+    for (int num { 1 }; num < 11; ++num)
+    {
+        std::cout << num << ' ';
+    }
+}
+
+void Render::renderBoardRow(Player &player, char type, int row)
+{
+    switch (type)
+    {
+        case 'o':
+            for (int col { 0 }; col < 10; ++col)
+            {
+                std::cout << player.getOceanPiece(row, col) << ' ';
+            }
+            break;
+        case 't':
+            for (int col { 0 }; col < 10; ++col)
+            {
+                std::cout << player.getTargetPiece(row, col) << ' ';
+            }
+            break;            
+    }
+}
+
 /*
 board layout
 [player 1 name]                                                     [player 2 name]
+Ocean                     Target                                    Ocean                     Target
   1 2 3 4 5 6 7 8 9 10      1 2 3 4 5 6 7 8 9 10                      1 2 3 4 5 6 7 8 9 10      1 2 3 4 5 6 7 8 9 10
 a - - - - - - - - - -     a - - - - - - - - - -                     a - - - - - - - - - -     a - - - - - - - - - -
 b - - - - - - - - - -     b - - - - - - - - - -                     b - - - - - - - - - -     b - - - - - - - - - -
@@ -30,36 +59,69 @@ j - - - - - - - - - -     j - - - - - - - - - -                     j - - - - - 
 total = 2(48) + 20 = 116
 player 1 name to player 2 name = 68 - player 1 name
 */
+
 void Render::renderBoards(Player &player1, Player &player2)
 {
     // gets data requried to render board
     std::string player1Name { player1.getName() };
     std::string player2Name { player2.getName() };
-    
-    std::array<std::array<char, 10>, 10> player1Ocean { player1.getOceanBoard() };
-    std::array<std::array<char, 10>, 10> player1Target { player1.getTargetBoard() };
-    std::array<std::array<char, 10>, 10> player2Ocean { player1.getOceanBoard() };
-    std::array<std::array<char, 10>, 10> player2Target { player1.getTargetBoard() };
 
     // print out player names
     std::cout << player1Name;
-    Render::whitespace(68 - player1Name.length());
-    std::cout << player2Name;
-    std::cout << '\n';
-    std::cout << '  '; // prints out 2 whitesapces to create indent
+    Render::renderWhitespace(68 - player1Name.length());
+    std::cout << player2Name << '\n';
+    std::cout << ' ' << ' '; // prints out 2 whitesapces to create indent
     
+    // render board titles
+    std::cout << "Ocean";
+    Render::renderWhitespace(21);
+    std::cout << "Target";
+    Render::renderWhitespace(36);
+    std::cout << "Ocean";
+    Render::renderWhitespace(21);
+    std::cout << "Target\n";
+
     // render numbers
-    int num {}; // using num twice for both loops
-    for (num = 1; num < 11; ++num) // player 1 side numbers
-    {
-        std::cout << num << ' '; // whitespace after for spacing (looks better and less cramped)
-    }
-    Render::whitespace(20);
-    for (num = 1; num < 11; ++num) // player 2 side numbers
-    {
-        std::cout << num << ' ';
-    }
+    Render::renderWhitespace(2);
+    Render::renderNumberRow();
+    Render::renderWhitespace(5);
+    Render::renderNumberRow();
+    Render::renderWhitespace(21);
+    Render::renderNumberRow();
+    Render::renderWhitespace(5);
+    Render::renderNumberRow();
     std::cout << '\n';
 
+
     // render rows
+    int col {};
+    for (int row { 0 }; row < 10; ++row)
+    {
+        // player 1 ocean
+        std::cout << Render::ALPHABET[row] << ' ';
+        Render::renderBoardRow(player1, 'o', row);
+        // player 1 target
+        Render::renderWhitespace(4);
+        std::cout << Render::ALPHABET[row] << ' ';
+        Render::renderBoardRow(player1, 't', row);
+        // player 2 ocean
+        Render::renderWhitespace(20);
+        std::cout << Render::ALPHABET[row] << ' ';
+        Render::renderBoardRow(player2, 'o', row);
+        // player 2 target
+        Render::renderWhitespace(4);
+        std::cout << Render::ALPHABET[row] << ' ';
+        Render::renderBoardRow(player2, 't', row);
+        std::cout << '\n';
+    }
+}
+
+int main()
+{
+    Player player1("John");
+    Player player2("Mike");
+
+    Render::renderBoards(player1, player2);
+
+    return 0;
 }
