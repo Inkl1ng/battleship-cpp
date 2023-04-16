@@ -13,20 +13,45 @@ bool play_battleship()
     std::string player2Name {};
     std::cin >> player2Name;
 
+    const std::string player1Text = "[" + player1Name + "]";
+    const std::string player2Text = "[" + player2Name + "]";
+
     // create players
     Player player1(player1Name);
     Player player2(player2Name);
 
     // main game loop
+    char row {};
+    int col {};
     bool playing { true };
+    bool validInput { false };
     while (playing)
     {
         // render 
-        
-        // get input
-
-        // validate input
-
+        Render::renderBoards(player1, player2);
+        while (!validInput)
+        {
+            // get input
+            std::cout << player1Text + " which row: ";
+            std::cin >> row;
+            row = static_cast<int>(tolower(row)) - 97; // subtracting 97 to get the row number that the char corresponds with
+            std::cout << player1Text + " which col: ";
+            std::cin >> col;
+            col--; // rows go from 1-10 but array is 0-9
+            // validate input
+            if (row < 0 || row > 9)
+            {
+                validInput = false;
+            }
+            else if (col < 0 || col > 9)
+            {
+                validInput = false;
+            }
+            else
+            {
+                validInput = true;
+            }
+        }
         // process input
 
         // check if the game has ended
@@ -47,7 +72,6 @@ bool play_battleship()
         return false;
     }
 }
-
 
 int main()
 {
