@@ -115,13 +115,3 @@ void Render::renderBoards(Player &player1, Player &player2)
         std::cout << '\n';
     }
 }
-
-int main()
-{
-    Player player1("John");
-    Player player2("Mike");
-
-    Render::renderBoards(player1, player2);
-
-    return 0;
-}
