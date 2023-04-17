@@ -1,12 +1,8 @@
 #include "ship.hpp"
+#include "types.hpp"
 #include <iostream>
 #include <array>
 #include <vector>
-
-std::vector<std::array<int, 2>>& Ship::getLocations()
-{
-    return this->locations;
-}
 
 Ship::Ship(char type, std::array<int, 2> loc, char orientation, int size)
 {
@@ -35,10 +31,29 @@ Ship::Ship(char type, std::array<int, 2> loc, char orientation, int size)
     }
 }
 
-int main()
+std::vector<std::array<int, 2>>& Ship::getLocations()
 {
-    std::cout << "Hello\n";
-    Ship testShip ('c', {5, 5}, 'h', 3);
-    std::cin.ignore();
-    return 0;
+    return this->locations;
+}
+
+bool Ship::shootAt(Point shot)
+{
+    // update locations
+    for (int index { 0 }; index < this->locations.size(); ++index)
+    {
+        if (shot == this->locations[index])
+        {
+            locations.erase(index + this->locations.begin());
+        }
+    }
+
+    // checck if all the locations are sunk
+    if (sizeof(this->locations) == 0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
