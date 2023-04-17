@@ -27,23 +27,35 @@ bool play_battleship()
     bool validInput { false };
     while (playing)
     {
-        // render 
+        // render
         Render::renderBoards(player1, player2);
         while (!validInput)
         {
             // get input
             std::cout << player1Text + " which row: ";
             std::cin >> row;
-            row = static_cast<int>(tolower(row)) - 97; // subtracting 97 to get the row number that the char corresponds with
+            // subtracting 97 to get the row number that the char corresponds with
+            row = static_cast<int>(tolower(row)) - 97;
             std::cout << player1Text + " which col: ";
             std::cin >> col;
             col--; // rows go from 1-10 but array is 0-9
-            // validate input
+
+            // validate input for valid location
             if (row < 0 || row > 9)
             {
                 validInput = false;
             }
             else if (col < 0 || col > 9)
+            {
+                validInput = false;
+            }
+            else
+            {
+                validInput = true;
+            }
+
+            // check if the player has already shot where they want to shoot
+            if (player1.getTargetPiece(row, col) == '.')
             {
                 validInput = false;
             }
