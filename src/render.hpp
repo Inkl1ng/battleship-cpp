@@ -3,10 +3,17 @@
 
 #include "player.hpp"
 #include <iostream>
+#include <string>
 
 // contains functions to render the game
 namespace Render
 {
+    // number of spaces from start of terminal column to start of p2 board
+    const int player2Whitespace { 68 };
+
+    void message(std::string &message, bool isPlayer2=false);
+    template <typename T>
+    T ask(std::string &message, bool isPlayer2=false);
     // string containing all the letters of the alphabet
     const std::string ALPHABET { "abcdefghijklmnopqrstuvwxyz" };
     // prints out [amount] number of whitespaces

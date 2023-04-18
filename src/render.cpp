@@ -3,6 +3,28 @@
 #include <iostream>
 #include <string>
 
+void Render::message(std::string &message, bool isPlayer2=false)
+{
+    if (isPlayer2)
+    {
+        Render::renderWhitespace(Render::player2Whitespace);
+    }
+    std::cout<< message;
+}
+
+template <typename T>
+T ask(std::string &message, bool isPlayer2=false)
+{
+    if (isPlayer2)
+    {
+        Render::renderWhitespace(Render::player2Whitespace);
+    }
+    std::cout << message;
+    T input {};
+    std::cin >> input;
+    return input;
+}
+
 void Render::renderWhitespace(int amount)
 {
     for (int x { 0 }; x < amount; ++x)
