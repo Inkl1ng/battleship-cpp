@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 
-void Render::message(std::string &message, bool isPlayer2=false)
+void Render::message(const std::string &message, const bool isPlayer2)
 {
     if (isPlayer2)
     {
@@ -12,18 +12,7 @@ void Render::message(std::string &message, bool isPlayer2=false)
     std::cout<< message;
 }
 
-template <typename T>
-T ask(std::string &message, bool isPlayer2=false)
-{
-    if (isPlayer2)
-    {
-        Render::renderWhitespace(Render::player2Whitespace);
-    }
-    std::cout << message;
-    T input {};
-    std::cin >> input;
-    return input;
-}
+
 
 void Render::renderWhitespace(int amount)
 {
@@ -117,7 +106,7 @@ void Render::renderBoards(Player &player1, Player &player2)
 
     // render rows
     int col {};
-    for (int row { 0 }; row < 10; ++row)
+    for (int row{ 0 }; row < 10; ++row)
     {
         // player 1 ocean
         std::cout << Render::ALPHABET[row] << ' ';
@@ -134,6 +123,27 @@ void Render::renderBoards(Player &player1, Player &player2)
         Render::renderWhitespace(4);
         std::cout << Render::ALPHABET[row] << ' ';
         Render::renderBoardRow(player2, 't', row);
+        std::cout << '\n';
+    }
+}
+
+void Render::renderBoard(Player& player, bool isPlayer2)
+{
+    Render::message("Ocean\n", isPlayer2);
+    
+    if (isPlayer2)
+    {
+        Render::renderWhitespace(Render::player2Whitespace);
+    }
+
+    for (int row{ 0 }; row < 10; ++row)
+    {
+        if (isPlayer2)
+        {
+            Render::renderWhitespace(Render::player2Whitespace);
+        }
+        Render::renderWhitespace(2);
+        renderBoardRow(player, 'o', row);
         std::cout << '\n';
     }
 }
