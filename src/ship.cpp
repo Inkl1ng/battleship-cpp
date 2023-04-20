@@ -1,34 +1,13 @@
 #include "ship.hpp"
-#include "types.hpp"
 #include <iostream>
 #include <array>
 #include <vector>
+#include <string>
 
-Ship::Ship(char type, std::array<int, 2> loc, char orientation, int size)
+Ship::Ship(std::string type, int size)
 {
     this->type = type;
-    this->loc = loc;
-    this->orientation = orientation;
     this->size = size;
-
-    // calculate locations
-    int colOrigin { loc[0] };
-    int rowOrigin { loc[1] };
-    switch (orientation)
-    {
-        case 'h':
-            for (int row { rowOrigin }; row < rowOrigin + this->size; ++row)
-            {
-                this->locations.push_back({row, colOrigin});
-            }
-            break;
-        case 'v':
-            for (int col { colOrigin}; col < colOrigin + this->size; ++col)
-            {
-                this->locations.push_back({col, rowOrigin});
-            }
-            break;
-    }
 }
 
 std::vector<std::array<int, 2>>& Ship::getLocations()
@@ -36,24 +15,46 @@ std::vector<std::array<int, 2>>& Ship::getLocations()
     return this->locations;
 }
 
-bool Ship::shootAt(Point shot)
+bool Ship::shootAt(int col, int row)
 {
-    // update locations
-    for (int index { 0 }; index < this->locations.size(); ++index)
-    {
-        if (shot == this->locations[index])
-        {
-            locations.erase(index + this->locations.begin());
-        }
-    }
+    return false;
+}
 
-    // checck if all the locations are sunk
-    if (sizeof(this->locations) == 0)
+void Ship::setLoc(int col, int row)
+{
+    this->loc[0] = col;
+    this->loc[1] = row;
+}
+
+void Ship::setOrientation(char newOrientation)
+{
+    this->orientation = newOrientation;
+}
+
+std::string& Ship::getType()
+{
+    return this->type;
+}
+
+void Ship::updateLocations()
+{
+    this->locations.clear();
+    int colOrigin{ loc[0] };
+    int rowOrigin{ loc[1] };
+
+    switch (orientation)
     {
-        return true;
-    }
-    else
-    {
-        return false;
+        case 'h':
+            for (int row{ rowOrigin }; row < rowOrigin + this->size; ++row)
+            {
+                this->locations.push_back({ colOrigin, row });
+            }
+            break;
+        case 'v':
+            for (int col{ colOrigin }; col < colOrigin + this->size; ++col)
+            {
+                this->locations.push_back({ col, rowOrigin });
+            }
+            break;
     }
 }
