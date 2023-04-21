@@ -10,7 +10,7 @@ class Ship
 {
     public:
         // ship class constructor
-        Ship(std::string type, int size);
+        Ship(std::string newType, int newSize);
 
         std::vector<std::array<int, 2>>& getLocations();
         // returns true if ship was sunk by shot
@@ -18,7 +18,8 @@ class Ship
         void setLoc(int col, int row);
         void setOrientation(char newOreination);
         std::string& getType();
-        void updateLocations();;
+        void updateLocations();
+        int getSize();
 
     private:
         std::string type {0, 0};
