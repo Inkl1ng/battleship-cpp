@@ -2,72 +2,99 @@
 #include "render.hpp"
 #include "ship.hpp"
 #include <iostream>
-
-bool checkInput(int input)
-{
-    if (input < 0 || input > 10)
-    {
-        return false;
-    }
-    else
-    {
-        return true;
-    }
-}
-
+#include <array>
 
 void placeShips(Player &player, bool isPlayer2)
 {
     std::array<Ship, 5> unplacedShips {
-        Ship("carrier", 5),
-        Ship("battleship", 4),
-        Ship("destroyer", 3),
-        Ship("submarine", 3),
-        Ship("patrol boat", 2)
+        Ship("Carrier", 5),
+        Ship("Destroyer", 4),
+        Ship("Battleship", 3),
+        Ship("Submarine", 3),
+        Ship("PatrolBoat", 2)
     };
 
-    int rowInput{};
-    int colInput{};
-    char orientationInput{};
-    bool validPlacement{ false };
-    std::string placementMessage{};
-
-    for (int i{ 0 }; i < 5; ++i)
+    int rowInput;
+    int colInput;
+    int row {};
+    int col {};
+    char orientationInput {};
+    // initialized at zero, decremented if there's issues with placement, 
+    // incremented if placement works
+    int placementResult {};
+    for (Ship ship : unplacedShips)
     {
+        placementResult = 0;
+
         // render board
         Render::renderBoard(player, isPlayer2);
-        // get placements
-        placementMessage = unplacedShips[i].getType() + " placement\n";
-        Render::message(placementMessage, isPlayer2);
-        while (!validPlacement)
+        std::cout << '\n';
+        // converts size (int) of ship to a character for message
+        char convertedSize = static_cast<char>(ship.getSize() + 48);
+        // [Ship type] (Size: x) placement
+        Render::message(ship.getType() + " (size: " + convertedSize + 
+            ") placement\n", isPlayer2);
+
+        while (placementResult == 0)
         {
-            rowInput = Render::ask<int>("Row (1-10): ", isPlayer2) - 1;
-            colInput = Render::ask<int>("Column (1-10): ", isPlayer2) - 1;
-            orientationInput = Render::ask<char>("Orientation ('h' or 'v'): ", isPlayer2);
+            // get inputs
+            colInput = Render::ask<int>("Column (1-10): ", isPlayer2);
+            --colInput; // board arrays go from 0-9 not 1-10
+            rowInput = Render::ask<char>("Row (A-J): ", isPlayer2);
+
+            // gets the corresponding row for a character
+            rowInput = static_cast<int>(tolower(rowInput)) - 97;
+            orientationInput = Render::ask<char>("Orientation (h or v): ",
+                isPlayer2);
             orientationInput = tolower(orientationInput);
 
-            // validate placements
-            // legal row/col
-            validPlacement = checkInput(rowInput);
-            // this repeated snippet breaks the loop is one of the inputs is bad
-            if (!validPlacement) { std::cout << "Invalid inputs!\n"; continue; }
-            validPlacement = checkInput(colInput);
-            if (!validPlacement) { std::cout << "Invalid inputs!\n"; continue; }
-            
-            // valid orientation (either h or v)
-            validPlacement = orientationInput == 'h' or orientationInput == 'v';
-            if (!validPlacement) { std::cout << "Invalid inputs!\n"; continue; }
-            
-            // check if there are already ships there
-            unplacedShips[i].setLoc(colInput, rowInput);
-            unplacedShips[i].setOrientation(orientationInput);
-            unplacedShips[i].updateLocations();
+            // update ship locations
+            ship.setLoc(colInput, rowInput);
+            ship.setOrientation(orientationInput);
+            ship.updateLocations();
 
-            for (std::array<int, 2> location : unplacedShips[i].getLocations())
+            // check if the inputs are valid
+            std::cout << rowInput << ' ' << colInput << ' ' << orientationInput
+                << '\n';
+            if (rowInput < 0 || rowInput > 9) {--placementResult;}
+            if (colInput < 0 || colInput > 9) {--placementResult;}
+            if (!(orientationInput == 'h' || orientationInput == 'v'))
+                {--placementResult;}
+
+            // check if there will be ships in the way or 
+            // if the ship will extend out of the board
+            for (std::array<int, 2> location : ship.getLocations())
             {
-                validPlacement = player.getOceanPiece(location[0], location[1]) != '.';
-                if (!validPlacement) { std::cout << "Invalid inputs!\n"; continue; }
+                row = location[1];
+                col = location[0];
+                if (player.getOceanPiece(col, row) != '.')
+                {
+                    --placementResult;
+
+                }
+                else if (row < 0 || col > 10)
+                {
+                    --placementResult;
+                }
             }
+            
+            std::cout << placementResult << '\n';
+            if (placementResult < 0)
+            {
+                Render::message("Invalid input!\n", isPlayer2);
+                placementResult = 0; // resets to keep the while loop going
+            }
+            else
+            {
+                ++placementResult;
+            }
+        }
+        // place ships onto oceanBoard
+        for (std::array<int, 2> location : ship.getLocations())
+        {
+            row = location[1];
+            col = location[0];
+            player.setOceanPiece(col, row, ship.getType()[0]);
         }
     }
 }
@@ -95,10 +122,10 @@ bool playBattleship()
     placeShips(player2, true);
 
     // main game loop
-    char row{};
-    int col{};
-    bool playing{ true };
-    bool validInput{ false };
+    char row {};
+    int col {};
+    bool playing { true };
+    bool validInput { false };
     while (playing)
     {
         // render
@@ -108,15 +135,17 @@ bool playBattleship()
             // get input
             std::cout << player1Text + " which row: ";
             std::cin >> row;
-            // subtracting 97 to get the row number that the char corresponds with
+            // subtracting 97 to get the row number
+            //  that the char corresponds with
             row = static_cast<int>(tolower(row)) - 97;
             std::cout << player1Text + " which col: ";
             std::cin >> col;
             col--; // rows go from 1-10 but array is 0-9
 
+            // REWRITE THIS!!!
             // validate input for valid location
-            validInput = checkInput(row);
-            validInput = checkInput(col);
+            // validInput = checkInput(row);
+            // validInput = checkInput(col);
 
             // check if the player has already shot where they want to shoot
             if (player1.getTargetPiece(row, col) == '.')
@@ -156,7 +185,7 @@ int main()
     char playGame;
     std::cin >> playGame;
     playGame = tolower(playGame);
-    bool keepPlaying{ true };
+    bool keepPlaying { true };
 
     while (keepPlaying)
     {
