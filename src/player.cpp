@@ -37,3 +37,13 @@ bool Player::shoot(int col, int row, Player &target)
     // check if the shot was a hit
     return false;
 }
+
+void Player::setOceanPiece(int col, int row, char piece)
+{
+    oceanBoard[row][col] = piece;
+}
+
+void Player::setTargetPiece(int col, int row, char piece)
+{
+    targetBoard[row][col] = piece;
+}
