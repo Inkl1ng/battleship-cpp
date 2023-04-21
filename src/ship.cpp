@@ -4,15 +4,15 @@
 #include <vector>
 #include <string>
 
-Ship::Ship(std::string type, int size)
+Ship::Ship(std::string newType, int newSize)
 {
-    this->type = type;
-    this->size = size;
+    type = newType;
+    size = newSize;
 }
 
 std::vector<std::array<int, 2>>& Ship::getLocations()
 {
-    return this->locations;
+    return locations;
 }
 
 bool Ship::shootAt(int col, int row)
@@ -20,41 +20,46 @@ bool Ship::shootAt(int col, int row)
     return false;
 }
 
-void Ship::setLoc(int col, int row)
+void Ship::setLoc(int newCol, int newRow)
 {
-    this->loc[0] = col;
-    this->loc[1] = row;
+    loc[0] = newCol;
+    loc[1] = newRow;
 }
 
 void Ship::setOrientation(char newOrientation)
 {
-    this->orientation = newOrientation;
+    orientation = newOrientation;
 }
 
 std::string& Ship::getType()
 {
-    return this->type;
+    return type;
 }
 
 void Ship::updateLocations()
 {
-    this->locations.clear();
-    int colOrigin{ loc[0] };
-    int rowOrigin{ loc[1] };
+    locations.clear();
+    int colOrigin { loc[0] };
+    int rowOrigin { loc[1] };
 
     switch (orientation)
     {
         case 'h':
-            for (int row{ rowOrigin }; row < rowOrigin + this->size; ++row)
+            for (int newCol{ colOrigin }; newCol < colOrigin + size; ++newCol)
             {
-                this->locations.push_back({ colOrigin, row });
+                locations.push_back({rowOrigin, newCol});
             }
             break;
         case 'v':
-            for (int col{ colOrigin }; col < colOrigin + this->size; ++col)
+            for (int newRow{ rowOrigin }; newRow > rowOrigin - size; --newRow)
             {
-                this->locations.push_back({ col, rowOrigin });
+                locations.push_back({newRow, colOrigin});
             }
             break;
     }
+}
+
+int Ship::getSize()
+{
+    return size;
 }
