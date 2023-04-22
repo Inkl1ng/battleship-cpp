@@ -10,14 +10,19 @@ Ship::Ship(std::string newType, int newSize)
     size = newSize;
 }
 
+int Ship::getSize()
+{
+    return size;
+}
+
+std::string& Ship::getType()
+{
+    return type;
+}
+
 std::vector<std::array<int, 2>>& Ship::getLocations()
 {
     return locations;
-}
-
-bool Ship::shootAt(int col, int row)
-{
-    return false;
 }
 
 void Ship::setLoc(int newCol, int newRow)
@@ -31,9 +36,9 @@ void Ship::setOrientation(char newOrientation)
     orientation = newOrientation;
 }
 
-std::string& Ship::getType()
+bool Ship::shootAt(int col, int row)
 {
-    return type;
+    return false;
 }
 
 void Ship::updateLocations()
@@ -57,9 +62,4 @@ void Ship::updateLocations()
             }
             break;
     }
-}
-
-int Ship::getSize()
-{
-    return size;
 }

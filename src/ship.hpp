@@ -12,14 +12,16 @@ class Ship
         // ship class constructor
         Ship(std::string newType, int newSize);
 
+        int getSize();
+        std::string& getType();
         std::vector<std::array<int, 2>>& getLocations();
+
         // returns true if ship was sunk by shot
-        bool shootAt(int col, int row);
         void setLoc(int col, int row);
         void setOrientation(char newOreination);
-        std::string& getType();
+        
+        bool shootAt(int col, int row);
         void updateLocations();
-        int getSize();
 
     private:
         std::string type {0, 0};

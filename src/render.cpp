@@ -50,6 +50,45 @@ void Render::renderBoardRow(Player &player, char type, int row)
 }
 
 /*
+Board layout
+
+Ocean
+  1 2 3 4 5 6 7 8 9 10
+a - - - - - - - - - -
+b - - - - - - - - - -
+c - - - - - - - - - -
+d - - - - - - - - - -
+e - - - - - - - - - -
+f - - - - - - - - - -
+g - - - - - - - - - -
+h - - - - - - - - - -
+i - - - - - - - - - -
+j - - - - - - - - - -
+*/
+
+void Render::renderBoard(Player& player, bool isPlayer2)
+{
+    // print out ocean text
+    // following snippet prints makes all the text be printed on p2's side 
+    // when needed
+    if (isPlayer2) { Render::renderWhitespace(Render::player2Whitespace); }
+    Render::message("Ocean\n", isPlayer2);
+
+    // print out number row
+    if (isPlayer2) { Render::renderWhitespace(Render::player2Whitespace); }
+    Render::renderWhitespace(2);
+    Render::renderNumberRow();
+    std::cout << '\n';
+    
+    for (int row{ 0 }; row < 10; ++row)
+    {
+        if (isPlayer2) { Render::renderWhitespace(Render::player2Whitespace); }
+        renderBoardRow(player, 'o', row);
+        std::cout << '\n';
+    }
+}
+
+/*
 board layout
 [player 1 name]                                                     [player 2 name]
 Ocean                     Target                                    Ocean                     Target
@@ -119,45 +158,6 @@ void Render::renderBoards(Player &player1, Player &player2)
         // player 2 target
         Render::renderWhitespace(4);
         Render::renderBoardRow(player2, 't', row);
-        std::cout << '\n';
-    }
-}
-
-/*
-Board layout
-
-Ocean
-  1 2 3 4 5 6 7 8 9 10
-a - - - - - - - - - -
-b - - - - - - - - - -
-c - - - - - - - - - -
-d - - - - - - - - - -
-e - - - - - - - - - -
-f - - - - - - - - - -
-g - - - - - - - - - -
-h - - - - - - - - - -
-i - - - - - - - - - -
-j - - - - - - - - - -
-*/
-
-void Render::renderBoard(Player& player, bool isPlayer2)
-{
-    // print out ocean text
-    // following snippet prints makes all the text be printed on p2's side 
-    // when needed
-    if (isPlayer2) { Render::renderWhitespace(Render::player2Whitespace); }
-    Render::message("Ocean\n", isPlayer2);
-
-    // print out number row
-    if (isPlayer2) { Render::renderWhitespace(Render::player2Whitespace); }
-    Render::renderWhitespace(2);
-    Render::renderNumberRow();
-    std::cout << '\n';
-    
-    for (int row{ 0 }; row < 10; ++row)
-    {
-        if (isPlayer2) { Render::renderWhitespace(Render::player2Whitespace); }
-        renderBoardRow(player, 'o', row);
         std::cout << '\n';
     }
 }

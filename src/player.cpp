@@ -31,13 +31,6 @@ char Player::getTargetPiece(int col, int row)
     return this->targetBoard[row][col];
 }
 
-bool Player::shoot(int col, int row, Player &target)
-{
-    // input is 100% legal when it is passed through this method
-    // check if the shot was a hit
-    return false;
-}
-
 void Player::setOceanPiece(int col, int row, char piece)
 {
     oceanBoard[row][col] = piece;
@@ -47,6 +40,14 @@ void Player::setTargetPiece(int col, int row, char piece)
 {
     targetBoard[row][col] = piece;
 }
+
+bool Player::shoot(int col, int row, Player &target)
+{
+    // input is 100% legal when it is passed through this method
+    // check if the shot was a hit
+    return false;
+}
+
 
 void Player::addShip(Ship &newShip)
 {

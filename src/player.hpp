@@ -24,15 +24,16 @@ class Player
         // get piece at (row, col) in targetBoard
         char getTargetPiece(int col, int row);
 
+        void setOceanPiece(int col, int row, char piece);
+        void setTargetPiece(int col, int row, char piece);
+
         // hanldes shooting, player that is shooting will call this method,
         // returns true if there was a hit
         bool shoot(int col, int row, Player &target);
 
-        void setOceanPiece(int col, int row, char piece);
-        void setTargetPiece(int col, int row, char piece);
-
         void addShip(Ship &newShip);
         void removeShip(std::string targetShipType);
+
 
     private:
         std::string name {};
