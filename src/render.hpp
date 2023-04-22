@@ -13,9 +13,13 @@ namespace Render
 
     // string containing all the letters of the alphabet
     const std::string ALPHABET { "abcdefghijklmnopqrstuvwxyz" };
+   
+    // prints out [amount] number of whitespaces
+    void renderWhitespace(int amount);
 
-    void message(const std::string &message, const bool isPlayer2);
-    
+    void message(const std::string &message, const bool isPlayer2);    
+
+    // gets user input from player
     template <typename T>
     T ask(const std::string& message, const bool isPlayer2)
     {
@@ -28,10 +32,7 @@ namespace Render
         std::cin >> input;
         return input;
     }
-    
-    // prints out [amount] number of whitespaces
-    void renderWhitespace(int amount);
-    
+
     // prints out numbers (1-10)
     void renderNumberRow();
     
