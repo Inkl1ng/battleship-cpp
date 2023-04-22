@@ -47,3 +47,21 @@ void Player::setTargetPiece(int col, int row, char piece)
 {
     targetBoard[row][col] = piece;
 }
+
+void Player::addShip(Ship &newShip)
+{
+    ships.push_back(newShip);
+}
+
+void Player::removeShip(std::string targetShipType)
+{
+    for (int index { 0 }; index < sizeof(ships); ++index)
+    {
+        Ship &targetShip = ships[index];
+        if (targetShip.getType() == targetShipType)
+        {
+            ships.erase(index + ships.begin());
+            return;
+        }
+    }
+}

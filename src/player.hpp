@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <array>
+#include <vector>
 
 // class to represent players
 // contains name, boards, and ships
@@ -30,6 +31,9 @@ class Player
         void setOceanPiece(int col, int row, char piece);
         void setTargetPiece(int col, int row, char piece);
 
+        void addShip(Ship &newShip);
+        void removeShip(std::string targetShipType);
+
     private:
         std::string name {};
 
@@ -39,6 +43,8 @@ class Player
 
         // represents where the player has shot, hit, and missed
         std::array<std::array<char, 10>, 10> targetBoard {};
+
+        std::vector<Ship> ships {};
 };
 
 #endif
