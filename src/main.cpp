@@ -122,41 +122,46 @@ bool playBattleship()
     placeShips(player2, true);
 
     // main game loop
-    char row {};
-    int col {};
+    char rowInput {};
+    int colInput {};
     bool playing { true };
-    bool validInput { false };
+    int inputResult {};
+    // 0 gets converted to false
+    // 1 gets converted to true
+    int turn { 0 };
+
+    // a lot of the following code is similar to the code in placeShips()
+    // refer to line 7-100 (wow long function!) in this file
     while (playing)
     {
         // render
+        inputResult = 0;
         Render::renderBoards(player1, player2);
-        while (!validInput)
+        
+        while (inputResult == 0)
         {
             // get input
-            std::cout << player1Text + " which row: ";
-            std::cin >> row;
-            // subtracting 97 to get the row number
-            //  that the char corresponds with
-            row = static_cast<int>(tolower(row)) - 97;
-            std::cout << player1Text + " which col: ";
-            std::cin >> col;
-            col--; // rows go from 1-10 but array is 0-9
+            colInput = Render::ask<int>("Column (1-10): ", turn);
+            --colInput;
+            rowInput = Render::ask<int>("Row (A-J): ", turn);
+            rowInput = static_cast<int>(tolower(rowInput)) - 97;
 
-            // REWRITE THIS!!!
-            // validate input for valid location
-            // validInput = checkInput(row);
-            // validInput = checkInput(col);
+            // check input
+            if (rowInput < 0 || rowInput > 9) {--inputResult;}
+            if (colInput < 0 || colInput > 9) {--inputResult;}
 
-            // check if the player has already shot where they want to shoot
-            if (player1.getTargetPiece(row, col) == '.')
+            if (player1.getOceanPiece(colInput, rowInput) != '.') {--inputResult;}
+
+            if (inputResult < 0)
             {
-                validInput = false;
+                Render::message("Invalid input\n", turn);
             }
             else
             {
-                validInput = true;
+                ++inputResult;
             }
         }
+        
         // process input
 
         // check if the game has ended
