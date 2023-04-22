@@ -4,6 +4,22 @@
 #include <iostream>
 #include <array>
 
+bool validCoordinate(int row, int col)
+{
+    if (row < 0 || row > 9)
+    {
+        return false;
+    }
+    else if (col < 0 || row > 9)
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
 void placeShips(Player &player, bool isPlayer2)
 {
     std::array<Ship, 5> unplacedShips {
@@ -56,8 +72,7 @@ void placeShips(Player &player, bool isPlayer2)
             // check if the inputs are valid
             std::cout << rowInput << ' ' << colInput << ' ' << orientationInput
                 << '\n';
-            if (rowInput < 0 || rowInput > 9) {--placementResult;}
-            if (colInput < 0 || colInput > 9) {--placementResult;}
+            if (!validCoordinate(rowInput, colInput)) {--placementResult;}
             if (!(orientationInput == 'h' || orientationInput == 'v'))
                 {--placementResult;}
 
@@ -147,9 +162,7 @@ bool playBattleship()
             rowInput = static_cast<int>(tolower(rowInput)) - 97;
 
             // check input
-            if (rowInput < 0 || rowInput > 9) {--inputResult;}
-            if (colInput < 0 || colInput > 9) {--inputResult;}
-
+            if (!validCoordinate(rowInput, colInput)) {--inputResult;}
             if (player1.getOceanPiece(colInput, rowInput) != '.') {--inputResult;}
 
             if (inputResult < 0)
