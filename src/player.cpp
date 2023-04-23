@@ -43,9 +43,25 @@ void Player::setTargetPiece(int col, int row, char piece)
 
 bool Player::shoot(int col, int row, Player &target)
 {
-    // input is 100% legal when it is passed through this method
+    bool hitShip {};
+
     // check if the shot was a hit
-    return false;
+    char targetPiece = target.getOceanPiece(col, row);
+    hitShip = !(targetPiece == '.');
+
+    if (hitShip)
+    {
+        // mark hits
+        setTargetPiece(col, row, 'X');
+        target.setOceanPiece(col, row, '#');
+    }
+    else
+    {
+        setTargetPiece(col, row, 'o');
+        target.setOceanPiece(col, row, 'o');
+    }
+    
+    return hitShip;
 }
 
 
