@@ -22,7 +22,8 @@ bool validCoordinate(int row, int col)
 
 void placeShips(Player &player, bool isPlayer2)
 {
-    std::array<Ship, 5> unplacedShips {
+    std::array<Ship, 5> unplacedShips
+    {
         Ship("Carrier", 5),
         Ship("Destroyer", 4),
         Ship("Battleship", 3),
@@ -104,13 +105,7 @@ void placeShips(Player &player, bool isPlayer2)
                 ++placementResult;
             }
         }
-        // place ships onto oceanBoard
-        for (std::array<int, 2> location : ship.getLocations())
-        {
-            row = location[1];
-            col = location[0];
-            player.setOceanPiece(col, row, ship.getType()[0]);
-        }
+        player.addShip(ship);
     }
 }
 
@@ -133,8 +128,30 @@ bool playBattleship()
     Player player2(player2Name);
 
     // place ships
-    placeShips(player1, false);
-    placeShips(player2, true);
+    char skipInit {};
+    std::cout << "Quick init (Y/N): ";
+    std::cin >> skipInit;
+    if (skipInit == 'n')
+    {
+        placeShips(player1, false);
+        placeShips(player2, true);
+    }
+    else
+    {
+        Ship testShip1("PatrolBoat", 2);
+        Ship testShip2("PatrolBoat", 2);
+
+        testShip1.setLoc(4, 4);
+        testShip1.setOrientation('h');
+        testShip1.updateLocations();
+
+        testShip2.setLoc(4, 4);
+        testShip2.setOrientation('h');
+        testShip2.updateLocations();
+
+        player1.addShip(testShip1);
+        player2.addShip(testShip2);
+    }
 
     // main game loop
     char rowInput {};
@@ -168,6 +185,7 @@ bool playBattleship()
             if (inputResult < 0)
             {
                 Render::message("Invalid input\n", turn);
+                inputResult = 0;
             }
             else
             {
@@ -176,7 +194,7 @@ bool playBattleship()
         }
         
         // process input
-
+        
         // check if the game has ended
 
         // repeat
