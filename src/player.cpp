@@ -67,6 +67,14 @@ bool Player::shoot(int col, int row, Player &target)
 
 void Player::addShip(Ship &newShip)
 {
+    int row;
+    int col;
+    for (std::array<int, 2> location : newShip.getLocations())
+    {
+        row = location[1];
+        col = location[0];
+        setOceanPiece(col, row, newShip.getType()[0]);
+    }
     ships.push_back(newShip);
 }
 
