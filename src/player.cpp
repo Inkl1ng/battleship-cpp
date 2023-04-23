@@ -10,25 +10,25 @@ Player::Player(const std::string &playerName)
     {
         for (int col { 0 }; col < 10; ++col)
         {
-            this->oceanBoard[row][col] = '.';
-            this->targetBoard[row][col] = '.';
+            oceanBoard[row][col] = '.';
+            targetBoard[row][col] = '.';
         }
     }
 }
 
 std::string& Player::getName()
 {
-    return this->name;
+    return name;
 }
 
 char Player::getOceanPiece(int col, int row)
 {
-    return this->oceanBoard[row][col];
+    return oceanBoard[row][col];
 }
 
 char Player::getTargetPiece(int col, int row)
 {
-    return this->targetBoard[row][col];
+    return targetBoard[row][col];
 }
 
 void Player::setOceanPiece(int col, int row, char piece)
