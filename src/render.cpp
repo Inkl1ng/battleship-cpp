@@ -30,23 +30,37 @@ void Render::renderNumberRow()
 
 void Render::renderBoardRow(Player &player, char type, int row)
 {
+    char tile;
     // prints out letters on side
     std::cout << Render::ALPHABET[row] << ' ';
-    switch (type)
+    for (int col { 0 }; col < 10; ++col)
     {
-        case 'o':
-            for (int col { 0 }; col < 10; ++col)
-            {
-                std::cout << player.getOceanPiece(row, col) << ' ';
-            }
-            break;
-        case 't':
-            for (int col { 0 }; col < 10; ++col)
-            {
-                std::cout << player.getTargetPiece(row, col) << ' ';
-            }
-            break;            
+        if (type == 'o')
+        {
+            tile = player.getOceanPiece(row, col);
+            islower(tile) ? std::cout << '#' : std::cout << tile;
+        }
+        else if (type == 't')
+        {
+            std::cout << player.getTargetPiece(row, col) << ' ';
+        }
+        std::cout << ' ';
     }
+    // switch (type)
+    // {
+    //     case 'o':
+    //         for (int col { 0 }; col < 10; ++col)
+    //         {
+    //             std::cout << player.getOceanPiece(row, col) << ' ';
+    //         }
+    //         break;
+    //     case 't':
+    //         for (int col { 0 }; col < 10; ++col)
+    //         {
+    //             std::cout << player.getTargetPiece(row, col) << ' ';
+    //         }
+    //         break;            
+    // }
 }
 
 /*
