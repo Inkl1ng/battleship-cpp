@@ -31,13 +31,13 @@ char Player::getTargetPiece(int col, int row)
     return targetBoard[row][col];
 }
 
-Ship* Player::getShip(char symbol)
+Ship& Player::getShip(char symbol)
 {
     for (Ship ship : ships)
     {
         if (symbol == ship.getType()[0])
         {
-            return &ship;
+            return ship;
         }
     }
 }
