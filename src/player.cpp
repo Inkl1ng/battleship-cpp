@@ -31,6 +31,11 @@ char Player::getTargetPiece(int col, int row)
     return targetBoard[row][col];
 }
 
+std::vector<Ship>& Player::getShips()
+{
+    return ships;
+}
+
 void Player::setOceanPiece(int col, int row, char piece)
 {
     oceanBoard[row][col] = piece;

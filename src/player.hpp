@@ -23,6 +23,7 @@ class Player
 
         // get piece at (row, col) in targetBoard
         char getTargetPiece(int col, int row);
+        std::vector<Ship>& getShips();
 
         void setOceanPiece(int col, int row, char piece);
         void setTargetPiece(int col, int row, char piece);
