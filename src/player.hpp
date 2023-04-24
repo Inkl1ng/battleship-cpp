@@ -23,7 +23,9 @@ class Player
 
         // get piece at (row, col) in targetBoard
         char getTargetPiece(int col, int row);
-        std::vector<Ship>& getShips();
+        
+        // gets a specific ship given the fist character of the ships's type
+        Ship& getShip(char symbol);
 
         void setOceanPiece(int col, int row, char piece);
         void setTargetPiece(int col, int row, char piece);

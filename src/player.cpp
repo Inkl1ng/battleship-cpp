@@ -31,9 +31,15 @@ char Player::getTargetPiece(int col, int row)
     return targetBoard[row][col];
 }
 
-std::vector<Ship>& Player::getShips()
+Ship& Player::getShip(char symbol)
 {
-    return ships;
+    for (Ship ship : ships)
+    {
+        if (symbol == ship.getType()[0])
+        {
+            return ship;
+        }
+    }
 }
 
 void Player::setOceanPiece(int col, int row, char piece)
