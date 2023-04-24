@@ -47,7 +47,8 @@ bool Ship::shootAt(int shotCol, int shotRow)
     {
         locations.erase(loc[1] - shotRow + locations.begin());
     }
-    return false;
+
+    return locations.size() == 0;
 }
 
 void Ship::updateLocations()
