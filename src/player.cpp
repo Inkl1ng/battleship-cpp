@@ -41,7 +41,7 @@ void Player::setTargetPiece(int col, int row, char piece)
     targetBoard[row][col] = piece;
 }
 
-bool Player::shoot(int col, int row, Player &target)
+char Player::shoot(int col, int row, Player &target)
 {
     bool hitShip {};
 
@@ -61,7 +61,7 @@ bool Player::shoot(int col, int row, Player &target)
         target.setOceanPiece(col, row, 'o');
     }
     
-    return hitShip;
+    return targetPiece;
 }
 
 

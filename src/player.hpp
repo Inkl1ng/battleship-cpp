@@ -28,8 +28,8 @@ class Player
         void setTargetPiece(int col, int row, char piece);
 
         // hanldes shooting, player that is shooting will call this method,
-        // returns true if there was a hit
-        bool shoot(int col, int row, Player &target);
+        // returns tile that was shot at
+        char shoot(int col, int row, Player &target);
 
         void addShip(Ship &newShip);
         void removeShip(std::string targetShipType);
