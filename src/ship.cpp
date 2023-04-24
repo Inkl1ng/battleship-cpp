@@ -36,8 +36,17 @@ void Ship::setOrientation(char newOrientation)
     orientation = newOrientation;
 }
 
-bool Ship::shootAt(int col, int row)
+bool Ship::shootAt(int shotCol, int shotRow)
 {
+    int col { loc[0] };
+    if (orientation == 'h')
+    {
+        locations.erase(shotCol - loc[0] + locations.begin());
+    }
+    else if (orientation == 'v')
+    {
+        locations.erase(loc[1] - shotRow + locations.begin());
+    }
     return false;
 }
 
@@ -58,7 +67,7 @@ void Ship::updateLocations()
         case 'v':
             for (int newRow{ rowOrigin }; newRow > rowOrigin - size; --newRow)
             {
-                locations.push_back({newRow, colOrigin});
+                locations.push_back({colOrigin, newRow});
             }
             break;
     }
