@@ -152,8 +152,7 @@ bool playBattleship()
     }
 
     // main game loop
-    char rowInput {};
-    int colInput {};
+    std::array<int, 2> coordInput { 0 };
     bool playing { true };
     char shotResult {};
     int inputResult {};
@@ -165,42 +164,10 @@ bool playBattleship()
     while (playing)
     {
         // render
-        inputResult = 0;
         Render::renderBoards(player1, player2);
-        
-        while (inputResult == 0)
-        {
-            // get input
-            colInput = Render::ask<int>("Column (1-10): ", false);
-            --colInput;
-            rowInput = Render::ask<char>("Row (A-J): ", false);
-            rowInput = static_cast<int>(tolower(rowInput)) - 97;
-
-            // check input
-            if (!validCoordinate(rowInput, colInput)) 
-            {
-                --inputResult;
-            }
-            if ((player2.getOceanPiece(rowInput, colInput) == '#' ||
-                player2.getOceanPiece(rowInput, colInput) == 'o'))
-            {
-                std::cout << "???\n";
-                --inputResult;
-            }
-
-            if (inputResult < 0)
-            {
-                Render::message("Invalid input\n", false);
-                inputResult = 0;
-            }
-            else
-            {
-                ++inputResult;
-            }
-        }
-
+        coordInput = player1.shotInput(player2, false);
         // process input
-        player1.shoot(rowInput, colInput, player2, false);
+        player1.shoot(coordInput[1], coordInput[0], player2, false);
         // check if the game has ended
         // repeat
     }

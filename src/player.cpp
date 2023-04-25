@@ -47,6 +47,44 @@ void Player::setTargetPiece(int col, int row, char piece)
     targetBoard[row][col] = piece;
 }
 
+std::array<int, 2> Player::shotInput(Player &target, bool isPlayer2)
+{
+    int colInput {};
+    int rowInput {};
+    int inputResult {};
+
+    while (inputResult == 0)
+    {
+        // get input
+        colInput = Render::ask<int>("Column (1-10): ", false);
+        --colInput;
+        rowInput = Render::ask<char>("Row (A-J): ", false);
+        rowInput = static_cast<int>(tolower(rowInput)) - 97;
+
+        // check input
+        if ((colInput < 0 || colInput > 9) || (rowInput < 0 || rowInput > 9)) 
+        {
+            --inputResult;
+        }
+        if ((getTargetPiece(rowInput, colInput) == 'X' ||
+            getTargetPiece(rowInput, colInput) == 'o'))
+        {
+            --inputResult;
+        }
+
+        if (inputResult < 0)
+        {
+            Render::message("Invalid input\n", false);
+            inputResult = 0;
+        }
+        else
+        {
+            ++inputResult;
+        }
+    }
+    return {colInput, rowInput};
+}
+
 void Player::shoot(int col, int row, Player &target, bool isPlayer2)
 {
     bool hitShip {};
@@ -67,12 +105,19 @@ void Player::shoot(int col, int row, Player &target, bool isPlayer2)
         {
             if (targetPiece == ship.getType()[0])
             {
-                
                 // std::cout << locations.size() << '\n';
-                ship.shootAt(col, row) ? Render::message("You sunk ", isPlayer2) :
-                           Render::message("You hit ", false);
+                if (ship.shootAt(col, row))
+                {   
+                    Render::message("You sunk their " + ship.getType() + "!\n",
+                        isPlayer2);
+                    removeShip(ship);
+                }
+                else
+                {
+                    Render::message("You hit their " + ship.getType() + "!\n",
+                        isPlayer2);
+                }
                 // can use cout here because the indentation has already happened
-                std::cout << "their " + ship.getType() + "!\n";
                 return; // end the function
             }
         }   
@@ -100,15 +145,7 @@ void Player::addShip(Ship &newShip)
     ships.push_back(newShip);
 }
 
-void Player::removeShip(std::string targetShipType)
+void Player::removeShip(Ship& targetShip)
 {
-    for (int index { 0 }; index < sizeof(ships); ++index)
-    {
-        Ship &targetShip = ships[index];
-        if (targetShip.getType() == targetShipType)
-          {
-            ships.erase(index + ships.begin());
-            return;
-        }
-    }
+    return;
 }
