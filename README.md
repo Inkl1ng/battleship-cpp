@@ -6,6 +6,8 @@ My introductory CS teacher had our class make a battleship game in Python. He pr
 ## Building and Running (I think?)
 I've been primarily using VSCode for writing this project so I'm also using the integrated commands to build and run this project. In the `tasks.json` file for specifying commands I put the following text under the `"args"` flag. I don't know if this is the best way to do this but as of writing this this isn't a big enough concern to me to go through configuring CMake and all the other stuff.
 
+If you just want to build/compile the project without running you can use the shortcut `CTRL+SHIFT+B` (in VSCode).
+
 For Windows:
 ```
 "-fdiagnostics-color=always",
