@@ -142,11 +142,11 @@ bool playBattleship()
         Ship testShip2("PatrolBoat", 2);
 
         testShip1.setLoc(4, 4);
-        testShip1.setOrientation('h');
+        testShip1.setOrientation('v');
         testShip1.updateLocations();
 
         testShip2.setLoc(4, 4);
-        testShip2.setOrientation('h');
+        testShip2.setOrientation('v');
         testShip2.updateLocations();
 
         player1.addShip(testShip1);
@@ -157,11 +157,11 @@ bool playBattleship()
     char rowInput {};
     int colInput {};
     bool playing { true };
+    char shotResult {};
     int inputResult {};
-    // 0 gets converted to false
-    // 1 gets converted to true
-    int turn { 0 };
-
+    bool sunkShip {};
+    std::string targetShipType {};
+    Ship* targetShip;
     // a lot of the following code is similar to the code in placeShips()
     // refer to line 7-100 (wow long function!) in this file
     while (playing)
@@ -173,18 +173,25 @@ bool playBattleship()
         while (inputResult == 0)
         {
             // get input
-            colInput = Render::ask<int>("Column (1-10): ", turn);
+            colInput = Render::ask<int>("Column (1-10): ", false);
             --colInput;
-            rowInput = Render::ask<int>("Row (A-J): ", turn);
+            rowInput = Render::ask<char>("Row (A-J): ", false);
             rowInput = static_cast<int>(tolower(rowInput)) - 97;
 
             // check input
-            if (!validCoordinate(rowInput, colInput)) {--inputResult;}
-            if (player1.getOceanPiece(colInput, rowInput) != '.') {--inputResult;}
+            if (!validCoordinate(rowInput, colInput)) 
+            {
+                --inputResult;
+            }
+            if (player2.getOceanPiece(colInput, rowInput) == '#'
+                || player2.getOceanPiece(colInput, rowInput) == 'o')
+            {
+                --inputResult;
+            }
 
             if (inputResult < 0)
             {
-                Render::message("Invalid input\n", turn);
+                Render::message("Invalid input\n", false);
                 inputResult = 0;
             }
             else
@@ -194,9 +201,8 @@ bool playBattleship()
         }
         
         // process input
-        
+        player1.shoot(rowInput, colInput, player2, false);
         // check if the game has ended
-
         // repeat
     }
     
