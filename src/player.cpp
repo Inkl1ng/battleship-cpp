@@ -106,7 +106,7 @@ void Player::removeShip(std::string targetShipType)
     {
         Ship &targetShip = ships[index];
         if (targetShip.getType() == targetShipType)
-        {
+          {
             ships.erase(index + ships.begin());
             return;
         }

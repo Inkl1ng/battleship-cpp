@@ -25,14 +25,14 @@ class Player
         char getTargetPiece(int col, int row);
         
         // gets a specific ship given the fist character of the ships's type
-        Ship& getShip(char symbol);
+        std::vector<Ship>& getShips();
 
         void setOceanPiece(int col, int row, char piece);
         void setTargetPiece(int col, int row, char piece);
 
         // hanldes shooting, player that is shooting will call this method,
         // returns tile that was shot at
-        char shoot(int col, int row, Player &target);
+        void shoot(int col, int row, Player &target, bool isPlayer2);
 
         void addShip(Ship &newShip);
         void removeShip(std::string targetShipType);
