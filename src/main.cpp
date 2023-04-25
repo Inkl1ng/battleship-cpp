@@ -71,8 +71,6 @@ void placeShips(Player &player, bool isPlayer2)
             ship.updateLocations();
 
             // check if the inputs are valid
-            std::cout << rowInput << ' ' << colInput << ' ' << orientationInput
-                << '\n';
             if (!validCoordinate(rowInput, colInput)) {--placementResult;}
             if (!(orientationInput == 'h' || orientationInput == 'v'))
                 {--placementResult;}
@@ -183,9 +181,10 @@ bool playBattleship()
             {
                 --inputResult;
             }
-            if (player2.getOceanPiece(colInput, rowInput) == '#'
-                || player2.getOceanPiece(colInput, rowInput) == 'o')
+            if ((player2.getOceanPiece(rowInput, colInput) == '#' ||
+                player2.getOceanPiece(rowInput, colInput) == 'o'))
             {
+                std::cout << "???\n";
                 --inputResult;
             }
 
@@ -199,7 +198,7 @@ bool playBattleship()
                 ++inputResult;
             }
         }
-        
+
         // process input
         player1.shoot(rowInput, colInput, player2, false);
         // check if the game has ended
