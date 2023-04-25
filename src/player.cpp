@@ -63,7 +63,7 @@ void Player::shoot(int col, int row, Player &target, bool isPlayer2)
 
         std::vector<Ship>& targetShips { target.getShips() };
 
-        for (Ship ship : targetShips)
+        for (Ship& ship : targetShips)
         {
             if (targetPiece == ship.getType()[0])
             {
