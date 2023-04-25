@@ -30,12 +30,14 @@ class Player
         void setOceanPiece(int col, int row, char piece);
         void setTargetPiece(int col, int row, char piece);
 
+        // gets and validates shot inputs
+        std::array<int, 2> shotInput(Player &target, bool isPlayer2);
         // hanldes shooting, player that is shooting will call this method,
         // returns tile that was shot at
         void shoot(int col, int row, Player &target, bool isPlayer2);
 
-        void addShip(Ship &newShip);
-        void removeShip(std::string targetShipType);
+        void addShip(Ship& newShip);
+        void removeShip(Ship& targetShip);
 
 
     private:

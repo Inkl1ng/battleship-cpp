@@ -147,5 +147,12 @@ void Player::addShip(Ship &newShip)
 
 void Player::removeShip(Ship& targetShip)
 {
+    for (int index { 0 }; index < ships.size(); ++index)
+    {
+        if (targetShip.getType() == ships[index].getType())
+        {
+            ships.erase(index + ships.begin());
+        }
+    }
     return;
 }
