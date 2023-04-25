@@ -30,7 +30,8 @@ void Render::renderNumberRow()
 
 void Render::renderBoardRow(Player &player, char type, int row)
 {
-    char tile;
+    char tile {};
+    int castedTile {};
     // prints out letters on side
     std::cout << Render::ALPHABET[row] << ' ';
     for (int col { 0 }; col < 10; ++col)
@@ -38,7 +39,15 @@ void Render::renderBoardRow(Player &player, char type, int row)
         if (type == 'o')
         {
             tile = player.getOceanPiece(row, col);
-            islower(tile) ? std::cout << '#' : std::cout << tile;
+
+            if (isupper(tile) || tile == '.' || tile == 'o')
+            {
+                std::cout << tile;
+            }
+            else
+            {
+                std::cout << '#';
+            }
         }
         else if (type == 't')
         {
