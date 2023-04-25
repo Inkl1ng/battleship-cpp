@@ -20,7 +20,7 @@ class Ship
         void setOrientation(char newOreination);
 
         // returns true if ship was sunk by shot        
-        bool shootAt(int shotCol, int shotCow);
+        bool shootAt(int shotCol, int shotRow);
         void updateLocations();
 
     private:
@@ -28,7 +28,6 @@ class Ship
         std::array<int, 2> loc {0, 0}; // (x, y) or (col, row)
         char orientation {'h'}; // 'h' for horizontal, 'v' for vertical
         int size {};
-
         std::vector<std::array<int, 2>> locations{};
 };
 
