@@ -1,5 +1,6 @@
 #include "player.hpp"
 #include "ship.hpp"
+#include "render.hpp"
 #include <iostream>
 
 Player::Player(const std::string &playerName)
@@ -31,15 +32,9 @@ char Player::getTargetPiece(int col, int row)
     return targetBoard[row][col];
 }
 
-Ship& Player::getShip(char symbol)
+std::vector<Ship>& Player::getShips()
 {
-    for (Ship ship : ships)
-    {
-        if (symbol == ship.getType()[0])
-        {
-            return ship;
-        }
-    }
+    return ships;
 }
 
 void Player::setOceanPiece(int col, int row, char piece)
@@ -52,7 +47,7 @@ void Player::setTargetPiece(int col, int row, char piece)
     targetBoard[row][col] = piece;
 }
 
-char Player::shoot(int col, int row, Player &target)
+void Player::shoot(int col, int row, Player &target, bool isPlayer2)
 {
     bool hitShip {};
 
@@ -65,14 +60,30 @@ char Player::shoot(int col, int row, Player &target)
         // mark hits
         setTargetPiece(col, row, 'X');
         target.setOceanPiece(col, row, '#');
+
+        std::vector<Ship>& targetShips { target.getShips() };
+
+        for (Ship ship : targetShips)
+        {
+            if (targetPiece == ship.getType()[0])
+            {
+                
+                // std::cout << locations.size() << '\n';
+                ship.shootAt(col, row) ? Render::message("You sunk ", isPlayer2) :
+                           Render::message("You hit ", false);
+                // can use cout here because the indentation has already happened
+                std::cout << "their " + ship.getType() + "!\n";
+                return; // end the function
+            }
+        }   
     }
     else
     {
+        // mark miss
         setTargetPiece(col, row, 'o');
         target.setOceanPiece(col, row, 'o');
+        Render::message("Miss!\n", isPlayer2);
     }
-    
-    return targetPiece;
 }
 
 
