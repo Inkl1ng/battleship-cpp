@@ -38,13 +38,7 @@ void Ship::setOrientation(char newOrientation)
 
 bool Ship::shootAt(int shotCol, int shotRow)
 {
-    // i don't like this solution but using erase() doesn't work for some
-    // reason
-    if (locations.size())
-    {
-        locations.clear();
-    }
-    else if (orientation == 'h')
+    if (orientation == 'h')
     {
         locations.erase(shotCol - loc[0] + locations.begin());
     }
