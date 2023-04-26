@@ -110,15 +110,13 @@ void Player::shoot(int col, int row, Player &target, bool isPlayer2)
                 {   
                     Render::message("You sunk their " + ship.getType() + "!\n",
                         isPlayer2);
-                    removeShip(ship);
+                    target.removeShip(ship);
                 }
                 else
                 {
                     Render::message("You hit their " + ship.getType() + "!\n",
                         isPlayer2);
                 }
-                // can use cout here because the indentation has already happened
-                return; // end the function
             }
         }   
     }
