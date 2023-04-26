@@ -33,7 +33,7 @@ class Player
         // gets and validates shot inputs
         std::array<int, 2> shotInput(Player &target, bool isPlayer2);
         // hanldes shooting, player that is shooting will call this method,
-        // returns tile that was shot at
+        // will shoot at target
         void shoot(int col, int row, Player &target, bool isPlayer2);
 
         void addShip(Ship& newShip);
