@@ -158,9 +158,8 @@ bool playBattleship()
     int inputResult {};
     bool sunkShip {};
     std::string targetShipType {};
-    Ship* targetShip;
     // a lot of the following code is similar to the code in placeShips()
-    // refer to line 7-100 (wow long function!) in this file
+    // refer to line 7-108 (wow long function!) in this file
     while (playing)
     {
         // render
@@ -169,7 +168,27 @@ bool playBattleship()
         // process input
         player1.shoot(coordInput[1], coordInput[0], player2, false);
         // check if the game has ended
-        // repeat
+        if (player2.getShips().empty())
+        {
+            std::cout << "You won!"; // 8 characters
+            Render::renderWhitespace(60);
+            std::cout << "You lost!\n";;
+            break; // exit out of game loop
+        }
+        // repeat for player 2
+        Render::renderBoards(player1, player2);
+        coordInput = player2.shotInput(player1, true);
+        // process input
+        player2.shoot(coordInput[1], coordInput[0], player1, true);
+        // check if the game has ended
+        if (player1.getShips().empty())
+        {
+            std::cout << "You lost!"; // 9 characters
+            Render::renderWhitespace(59);
+            std::cout << "You lost!\n";
+            break; // exit out of game loop
+        }
+ 
     }
     
     std::cout << "Keep playing (Y/N)?: ";
