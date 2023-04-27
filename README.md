@@ -26,3 +26,5 @@ For other:
 "${workspaceFolder}/bin/battleship.exe"
 ```
 It's the same text but the slashes are different because windows uses backslashes while other OS's use forwardslashes.
+
+If you want to use CMake then just run `cmake ..` and then `make` in your terminal in the `/build/` folder. The resulting `battleship` program will be outputted in the `/bin/` folder. It will use the `CMakeLists.txt` file. IDK if its good but this is my first time using CMake.
